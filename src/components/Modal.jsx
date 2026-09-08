@@ -45,7 +45,7 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
         <button
           type="button"
           onClick={closeModal}
-          className="absolute top-4 right-4 text-neutral-900 hover:text-neutral-600 transition-colors"
+          className="absolute top-4 right-4 text-neutral-900 hover:text-neutral-600 transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
@@ -123,14 +123,14 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
             <div className="flex justify-end gap-3 mt-2">
               <button
                 type="button"
-                className="px-4 py-2 border border-neutral-300 text-neutral-700 text-sm font-medium rounded-lg hover:bg-neutral-50 transition-colors flex items-center gap-1.5"
+                className="px-4 py-2 border border-neutral-300 text-neutral-700 text-sm font-medium rounded-xl hover:bg-neutral-50 flex items-center gap-1.5 cursor-pointer hover:scale-105 transition-all"
                 onClick={closeModal}
               >
                 <X className="w-4 h-4" /> Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-700 text-white text-sm font-medium rounded-lg hover:bg-blue-800 transition-colors flex items-center gap-1.5"
+                className="px-4 py-2 bg-blue-700 text-white text-sm font-medium rounded-xl hover:bg-blue-800 flex items-center gap-1.5 cursor-pointer hover:scale-105 transition-all"
               >
                 <Save className="w-4 h-4" /> Save
               </button>

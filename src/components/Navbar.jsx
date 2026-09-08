@@ -4,7 +4,7 @@ export const Navbar = ({ setIsModalOpen, searchValue, setSearchValue }) => {
   return (
     <nav className="flex w-full justify-between h-20 items-center px-4 sm:px-10 border-b border-neutral-100 gap-2">
       <h1 className="text-3xl font-bold">
-        Notes<span className="text-blue-700">App</span>
+        Notes<span className="text-blue-700">Pro</span>
       </h1>
 
       <div className="relative w-full max-w-60 xs:max-w-[240px] sm:max-w-xs md:max-w-sm flex items-center">
