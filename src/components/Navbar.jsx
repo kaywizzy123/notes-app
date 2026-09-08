@@ -1,4 +1,4 @@
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 
 export const Navbar = ({ setIsModalOpen, searchValue, setSearchValue }) => {
   return (
@@ -16,6 +16,12 @@ export const Navbar = ({ setIsModalOpen, searchValue, setSearchValue }) => {
           placeholder="Search notes..."
         />
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 pointer-events-none" />
+        {searchValue.length != 0 && (
+          <X
+            className="absolute right-3 text-neutral-400 w-4 h-4 cursor-pointer"
+            onClick={() => setSearchValue("")}
+          />
+        )}
       </div>
 
       <button
