@@ -7,15 +7,11 @@ import { motion } from "motion/react";
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
 
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem("notes_app_data");
-
-    if (savedNotes) {
-      return JSON.parse(savedNotes);
-    } else {
-      return [];
-    }
+    return savedNotes ? JSON.parse(savedNotes) : [];
   });
 
   useEffect(() => {
@@ -35,6 +31,13 @@ function App() {
     setIsModalOpen(false);
     setEditingNote(null);
   }
+
+  const filteredNotes = notes.filter((note) => {
+    const searchLower = searchValue.toLowerCase();
+    const titleMatch = note.title?.toLowerCase().includes(searchLower);
+    const descMatch = note.description?.toLowerCase().includes(searchLower);
+    return titleMatch || descMatch;
+  });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -76,7 +79,11 @@ function App() {
   return (
     <div className="flex w-full h-screen justify-center">
       <div className="flex flex-col w-full h-screen lg:w-3/4 xl:w-2/3 justify-center">
-        <Navbar setIsModalOpen={setIsModalOpen} />
+        <Navbar
+          setIsModalOpen={setIsModalOpen}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
 
         {isModalOpen && (
           <Modal
@@ -91,21 +98,23 @@ function App() {
           initial="hidden"
           animate="visible"
         >
-          {notes.length === 0 ? (
+          {filteredNotes.length === 0 ? (
             <motion.div
               className="flex flex-col items-center justify-center gap-2 text-center my-auto"
               variants={cardVariants}
             >
               <p className="text-xl font-semibold text-neutral-400">
-                No notes found
+                {notes.length === 0 ? "No notes found" : "No matching notes"}
               </p>
               <p className="text-sm text-neutral-400">
-                Click "Add new" to create your first note!
+                {notes.length === 0
+                  ? 'Click "Add new" to create your first note!'
+                  : "Try modifying your search keywords."}
               </p>
             </motion.div>
           ) : (
             <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-max mx-auto h-fit mt-2">
-              {notes.map((item) => (
+              {filteredNotes.map((item) => (
                 <motion.div
                   whileHover={{
                     scale: 1.05,
@@ -121,7 +130,7 @@ function App() {
                     className="flex flex-col gap-4"
                     variants={cardContentVariants}
                   >
-                    <div className="text-2xl font-bold wrap-break-word">
+                    <div className="text-2xl font-bold word-break-word">
                       {item.title}
                     </div>
                     <div className="text-neutral-600 whitespace-pre-wrap wrap-break-word font-mono text-sm">
