@@ -12,12 +12,12 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
   const colors = [
     { id: 1, color: "bg-pink-200" },
     { id: 2, color: "bg-blue-200" },
-    { id: 3, color: "bg-purple-200" },
+    { id: 3, color: "bg-violet-200" },
     { id: 4, color: "bg-green-200" },
     { id: 5, color: "bg-amber-200" },
-    { id: 6, color: "bg-fuchsia-200" },
+    { id: 6, color: "bg-rose-200" },
     { id: 7, color: "bg-teal-200" },
-    { id: 8, color: "bg-emerald-200" },
+    { id: 8, color: "bg-cyan-200" },
   ];
 
   function handleSubmit(e) {

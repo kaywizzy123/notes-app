@@ -2,7 +2,7 @@ import { SquarePen, Trash } from "lucide-react";
 import { useState, useEffect } from "react";
 import Modal from "./components/Modal";
 import { Navbar } from "./components/Navbar";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -118,54 +118,62 @@ function App() {
             </motion.div>
           ) : (
             <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-max mx-auto h-fit mt-2">
-              {filteredNotes.map((item) => (
-                <motion.div
-                  key={item.id}
-                  whileHover={{
-                    scale: 1.05,
-                    transition: {
-                      duration: 0.25,
-                    },
-                  }}
-                  variants={cardVariants}
-                  className={`${item.color || "bg-pink-200"} p-4 flex min-w-80 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-xl justify-between`}
-                >
+              <AnimatePresence>
+                {filteredNotes.map((item) => (
                   <motion.div
-                    className="flex flex-col gap-4"
-                    variants={cardContentVariants}
+                    key={item.id}
+                    layout
+                    whileHover={{
+                      scale: 1.05,
+                      transition: {
+                        duration: 0.25,
+                      },
+                    }}
+                    variants={cardVariants}
+                    exit={{
+                      scale: 0,
+                      opacity: 0,
+                      transition: { duration: 0.2 },
+                    }}
+                    className={`${item.color || "bg-pink-200"} p-4 flex min-w-80 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-lg justify-between`}
                   >
-                    <div className="text-2xl font-bold word-break-word">
-                      {item.title}
-                    </div>
-                    <div className="text-neutral-600 whitespace-pre-wrap wrap-break-word font-mono text-sm">
-                      {item.description}
-                    </div>
-                  </motion.div>
-                  <motion.div
-                    className="flex justify-between mt-4"
-                    variants={cardContentVariants}
-                  >
-                    <motion.button
-                      whileHover={{
-                        scale: 1.15,
-                      }}
-                      className="hover:text-blue-700 transition-colors cursor-pointer"
-                      onClick={() => handleEditClick(item)}
+                    <motion.div
+                      className="flex flex-col gap-4"
+                      variants={cardContentVariants}
                     >
-                      <SquarePen />
-                    </motion.button>
-                    <motion.button
-                      whileHover={{
-                        scale: 1.15,
-                      }}
-                      className="hover:text-red-600 transition-colors cursor-pointer"
-                      onClick={() => handleDelete(item.id)}
+                      <div className="text-2xl font-bold word-break-word">
+                        {item.title}
+                      </div>
+                      <div className="text-neutral-600 whitespace-pre-wrap wrap-break-word font-mono text-sm">
+                        {item.description}
+                      </div>
+                    </motion.div>
+                    <motion.div
+                      className="flex justify-between mt-4"
+                      variants={cardContentVariants}
                     >
-                      <Trash />
-                    </motion.button>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.15,
+                        }}
+                        className="hover:text-blue-700 transition-colors cursor-pointer"
+                        onClick={() => handleEditClick(item)}
+                      >
+                        <SquarePen />
+                      </motion.button>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.15,
+                        }}
+                        className="hover:text-red-600 transition-colors cursor-pointer"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <Trash />
+                      </motion.button>
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              ))}
+                ))}
+              </AnimatePresence>
             </motion.div>
           )}
         </motion.main>
