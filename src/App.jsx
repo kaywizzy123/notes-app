@@ -11,7 +11,11 @@ function App() {
 
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem("notes_app_data");
-    return savedNotes ? JSON.parse(savedNotes) : [];
+    if (!savedNotes) return [];
+    const parsedNotes = JSON.parse(savedNotes);
+    return parsedNotes.map((note) =>
+      note.id ? note : { ...note, id: crypto.randomUUID() },
+    );
   });
 
   useEffect(() => {
@@ -116,6 +120,7 @@ function App() {
             <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-max mx-auto h-fit mt-2">
               {filteredNotes.map((item) => (
                 <motion.div
+                  key={item.id}
                   whileHover={{
                     scale: 1.05,
                     transition: {
@@ -123,8 +128,7 @@ function App() {
                     },
                   }}
                   variants={cardVariants}
-                  key={item.id}
-                  className={`${item.color || "bg-pink-200"} p-4 flex flex-col gap-2 w-full max-w-sm rounded-2xl shadow-xl justify-between`}
+                  className={`${item.color || "bg-pink-200"} p-4 flex min-w-80 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-xl justify-between`}
                 >
                   <motion.div
                     className="flex flex-col gap-4"

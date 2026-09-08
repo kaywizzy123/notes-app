@@ -1,5 +1,6 @@
 import { Save, X } from "lucide-react";
 import { useState } from "react";
+import { motion } from "motion/react";
 
 export default function Modal({ closeModal, setNotes, editingNote }) {
   const [input, setInput] = useState({
@@ -40,12 +41,35 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
   }
 
   return (
-    <div className="w-full h-screen bg-neutral-900/40 backdrop-blur-sm fixed top-0 left-0 flex justify-center items-center z-50 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white shadow-2xl border border-neutral-200 flex flex-col p-6 gap-6 relative">
+    <motion.div
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.15,
+      }}
+      className="w-full h-screen bg-neutral-900/40 backdrop-blur-sm fixed top-0 left-0 flex justify-center items-center z-50 p-4 shadow-2xl"
+    >
+      <motion.div
+        initial={{
+          scale: 0,
+        }}
+        animate={{
+          scale: 1,
+        }}
+        transition={{
+          delay: 0.15,
+          duration: 0.35,
+        }}
+        className="w-full max-w-lg rounded-2xl bg-white shadow-2xl border border-neutral-200 flex flex-col p-6 gap-6 relative"
+      >
         <button
           type="button"
           onClick={closeModal}
-          className="absolute top-4 right-4 text-neutral-900 hover:text-neutral-600 transition-colors cursor-pointer"
+          className="absolute top-4 right-4 w-8 h-8 bg-red-400 rounded-full flex justify-center items-center text-neutral-900 hover:text-neutral-50 hover:scale-105 transition-colors cursor-pointer border border-neutral-900/20"
         >
           <X className="w-5 h-5" />
         </button>
@@ -137,7 +161,7 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
