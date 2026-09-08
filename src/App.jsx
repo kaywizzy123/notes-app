@@ -135,7 +135,7 @@ function App() {
                       opacity: 0,
                       transition: { duration: 0.2 },
                     }}
-                    className={`${item.color || "bg-pink-200"} p-4 flex min-w-80 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-lg justify-between`}
+                    className={`${item.color || "bg-pink-200"} p-4 flex min-w-60 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-lg justify-between`}
                   >
                     <motion.div
                       className="flex flex-col gap-4"
