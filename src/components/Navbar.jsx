@@ -3,7 +3,7 @@ import { Plus, Search, X } from "lucide-react";
 export const Navbar = ({ setIsModalOpen, searchValue, setSearchValue }) => {
   return (
     <nav className="flex w-full justify-between h-20 items-center px-4 sm:px-10 border-b border-neutral-100 gap-2">
-      <h1 className="text-3xl font-bold">
+      <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
         Sticky<span className="text-blue-700">Pads</span>
       </h1>
 
