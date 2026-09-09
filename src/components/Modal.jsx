@@ -51,6 +51,10 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
       transition={{
         duration: 0.15,
       }}
+      exit={{
+        opacity: 0,
+        transition: { delay: 0.2, duration: 0.2 },
+      }}
       className="w-full h-screen bg-neutral-900/40 backdrop-blur-sm fixed top-0 left-0 flex justify-center items-center z-50 p-4 shadow-2xl"
     >
       <motion.div
@@ -63,6 +67,11 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
         transition={{
           delay: 0.15,
           duration: 0.35,
+        }}
+        exit={{
+          scale: 0,
+          opacity: 0,
+          transition: { duration: 0.2 },
         }}
         className="w-full max-w-lg rounded-2xl bg-white shadow-2xl border border-neutral-200 flex flex-col p-6 gap-6 relative"
       >
@@ -81,7 +90,10 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
             </h1>
           </div>
 
-          <form className="flex flex-col gap-5 w-full" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col gap-5 w-full"
+            onSubmit={handleSubmit}
+          >
             <div className="flex flex-col sm:grid sm:grid-cols-[100px_1fr] items-start sm:items-center gap-2 sm:gap-4">
               <label
                 htmlFor="title"
@@ -113,7 +125,10 @@ export default function Modal({ closeModal, setNotes, editingNote }) {
                 id="description"
                 value={input.description}
                 onChange={(e) =>
-                  setInput((prev) => ({ ...prev, description: e.target.value }))
+                  setInput((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
                 }
                 className="w-full border border-neutral-300 rounded-xl p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none"
                 placeholder="Type your notes here..."

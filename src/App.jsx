@@ -89,13 +89,15 @@ function App() {
           setSearchValue={setSearchValue}
         />
 
-        {isModalOpen && (
-          <Modal
-            closeModal={handleCloseModal}
-            setNotes={setNotes}
-            editingNote={editingNote}
-          />
-        )}
+        <AnimatePresence>
+          {isModalOpen && (
+            <Modal
+              closeModal={handleCloseModal}
+              setNotes={setNotes}
+              editingNote={editingNote}
+            />
+          )}
+        </AnimatePresence>
         <motion.main
           className="flex-1 px-4 m-4 overflow-auto flex justify-center"
           variants={containerVariants}
