@@ -48,6 +48,7 @@ function App() {
     visible: {
       opacity: 1,
       transition: {
+        duration: 0.25,
         staggerChildren: 0.15,
       },
     },
@@ -76,6 +77,15 @@ function App() {
         type: "spring",
         stiffness: 300,
         damping: 24,
+      },
+    },
+  };
+
+  const textContainerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.25,
       },
     },
   };
@@ -141,14 +151,20 @@ function App() {
                   >
                     <motion.div
                       className="flex flex-col gap-4"
-                      variants={cardContentVariants}
+                      variants={textContainerVariants}
                     >
-                      <div className="text-2xl font-bold word-break-word">
+                      <motion.div
+                        className="text-2xl font-bold word-break-word"
+                        variants={cardContentVariants}
+                      >
                         {item.title}
-                      </div>
-                      <div className="text-neutral-600 whitespace-pre-wrap wrap-break-word font-mono text-sm">
+                      </motion.div>
+                      <motion.div
+                        className="text-neutral-600 whitespace-pre-wrap wrap-break-word font-mono text-sm"
+                        variants={cardContentVariants}
+                      >
                         {item.description}
-                      </div>
+                      </motion.div>
                     </motion.div>
                     <motion.div
                       className="flex justify-between mt-4"
