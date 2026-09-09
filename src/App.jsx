@@ -8,6 +8,18 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
   const [searchValue, setSearchValue] = useState("");
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem("notes_app_data");
@@ -91,12 +103,14 @@ function App() {
   };
 
   return (
-    <div className="flex w-full h-screen justify-center">
+    <div className="flex w-full h-screen justify-center bg-white dark:bg-stone-950">
       <div className="flex flex-col w-full h-screen lg:w-3/4 xl:w-2/3 justify-center">
         <Navbar
           setIsModalOpen={setIsModalOpen}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
+          theme={theme}
+          setTheme={setTheme}
         />
 
         <AnimatePresence>
@@ -114,86 +128,85 @@ function App() {
           initial="hidden"
           animate="visible"
         >
-          {filteredNotes.length === 0 ? (
+          {filteredNotes.length === 0 && (
             <motion.div
               className="flex flex-col items-center justify-center gap-2 text-center my-auto"
               variants={cardVariants}
             >
-              <p className="text-xl font-semibold text-neutral-400">
+              <p className="text-xl font-semibold text-neutral-400 dark:text-neutral-600">
                 {notes.length === 0 ? "No notes found" : "No matching notes"}
               </p>
-              <p className="text-sm text-neutral-400">
+              <p className="text-sm text-neutral-400 dark:text-neutral-600">
                 {notes.length === 0
                   ? 'Click "Add new" to create your first note!'
                   : "Try modifying your search keywords."}
               </p>
             </motion.div>
-          ) : (
-            <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-max mx-auto h-fit mt-2">
-              <AnimatePresence>
-                {filteredNotes.map((item) => (
+          )}
+          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-max mx-auto h-fit mt-2">
+            <AnimatePresence>
+              {filteredNotes.map((item) => (
+                <motion.div
+                  key={item.id}
+                  layout
+                  whileHover={{
+                    scale: 1.05,
+                    transition: {
+                      duration: 0.25,
+                    },
+                  }}
+                  variants={cardVariants}
+                  exit={{
+                    scale: 0,
+                    opacity: 0,
+                    transition: { duration: 0.2 },
+                  }}
+                  className={`${item.color || "bg-pink-200 dark:bg-pink-400"} p-4 flex min-w-60 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-lg justify-between `}
+                >
                   <motion.div
-                    key={item.id}
-                    layout
-                    whileHover={{
-                      scale: 1.05,
-                      transition: {
-                        duration: 0.25,
-                      },
-                    }}
-                    variants={cardVariants}
-                    exit={{
-                      scale: 0,
-                      opacity: 0,
-                      transition: { duration: 0.2 },
-                    }}
-                    className={`${item.color || "bg-pink-200"} p-4 flex min-w-60 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-lg justify-between`}
+                    className="flex flex-col gap-4"
+                    variants={textContainerVariants}
                   >
                     <motion.div
-                      className="flex flex-col gap-4"
-                      variants={textContainerVariants}
-                    >
-                      <motion.div
-                        className="text-2xl font-bold word-break-word"
-                        variants={cardContentVariants}
-                      >
-                        {item.title}
-                      </motion.div>
-                      <motion.div
-                        className="text-neutral-600 whitespace-pre-wrap wrap-break-word font-mono text-sm"
-                        variants={cardContentVariants}
-                      >
-                        {item.description}
-                      </motion.div>
-                    </motion.div>
-                    <motion.div
-                      className="flex justify-between mt-4"
+                      className="text-2xl font-bold word-break-word"
                       variants={cardContentVariants}
                     >
-                      <motion.button
-                        whileHover={{
-                          scale: 1.15,
-                        }}
-                        className="hover:text-blue-700 transition-colors cursor-pointer"
-                        onClick={() => handleEditClick(item)}
-                      >
-                        <SquarePen />
-                      </motion.button>
-                      <motion.button
-                        whileHover={{
-                          scale: 1.15,
-                        }}
-                        className="hover:text-red-600 transition-colors cursor-pointer"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <Trash />
-                      </motion.button>
+                      {item.title}
+                    </motion.div>
+                    <motion.div
+                      className="text-neutral-600 whitespace-pre-wrap wrap-break-word font-mono text-sm"
+                      variants={cardContentVariants}
+                    >
+                      {item.description}
                     </motion.div>
                   </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          )}
+                  <motion.div
+                    className="flex justify-between mt-4"
+                    variants={cardContentVariants}
+                  >
+                    <motion.button
+                      whileHover={{
+                        scale: 1.15,
+                      }}
+                      className="hover:text-blue-700 transition-colors cursor-pointer"
+                      onClick={() => handleEditClick(item)}
+                    >
+                      <SquarePen />
+                    </motion.button>
+                    <motion.button
+                      whileHover={{
+                        scale: 1.15,
+                      }}
+                      className="hover:text-red-600 transition-colors cursor-pointer"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <Trash />
+                    </motion.button>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </motion.main>
       </div>
     </div>
