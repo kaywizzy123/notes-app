@@ -130,7 +130,7 @@ function App() {
         >
           {filteredNotes.length === 0 && (
             <motion.div
-              className="flex flex-col items-center justify-center gap-2 text-center my-auto"
+              className="flex flex-col w-full items-center justify-center gap-2 text-center my-auto"
               variants={cardVariants}
             >
               <p className="text-xl font-semibold text-neutral-400 dark:text-neutral-600">
@@ -143,7 +143,7 @@ function App() {
               </p>
             </motion.div>
           )}
-          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-max mx-auto h-fit mt-2">
+          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4  max-w-max mx-auto h-fit mt-2">
             <AnimatePresence>
               {filteredNotes.map((item) => (
                 <motion.div
@@ -161,7 +161,7 @@ function App() {
                     opacity: 0,
                     transition: { duration: 0.2 },
                   }}
-                  className={`${item.color || "bg-pink-200 dark:bg-pink-400"} p-4 flex min-w-60 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-lg justify-between `}
+                  className={`${item.color || "bg-pink-200 dark:bg-pink-400"} p-4 flex min-w-40 min-h-sm flex-col gap-2 w-full max-w-sm rounded-2xl shadow-lg justify-between `}
                 >
                   <motion.div
                     className="flex flex-col gap-4"
